@@ -65,20 +65,26 @@ async function playHenryyLotto() {
     const username = sessionStorage.getItem('username');
     if(!username) return alert('Kirjaudu sisään');
 
-    const numbers = document.getElementById('lottoNumbers').value.split(',').map(n=>parseInt(n.trim()));
-    const rows = parseInt(document.getElementById('lottoRows').value);
-    if(numbers.length !==7) return alert('Syötä 7 numeroa');
-    if(rows<1 || rows>10) return alert('Rivien määrä 1-10');
+    const numbers = document.getElementById('lottoNumbers').value.split(',').map(n => parseInt(n.trim()));
+    if(numbers.length !== 7) return alert('Syötä täsmälleen 7 numeroa');
 
     const userRef = db.collection('users').doc(username);
     const doc = await userRef.get();
     const saldo = doc.data().saldo || 0;
-    const cost = 0.5*rows;
-    if(saldo<cost) return alert('Ei tarpeeksi saldoa');
+    const cost = 0.5; // 1 rivi = 0,50€
 
-    await userRef.update({ saldo: saldo-cost });
-    await db.collection('henryyLottoTickets').add({username, numbers, rows, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
-    alert('Rivit lähetetty!');
+    if(saldo < cost) return alert('Ei tarpeeksi saldoa');
+
+    await userRef.update({ saldo: saldo - cost });
+
+    // Lisätään yksi rivi Firestoreen
+    await db.collection('henryyLottoTickets').add({
+        username,
+        numbers,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    alert('Rivi lähetetty! Hinta: 0,50€');
     updateSaldoDisplay();
 }
 
