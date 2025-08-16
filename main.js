@@ -124,6 +124,19 @@ async function addSaldo() {
     alert('Saldo lisätty');
 }
 
+async function showAllLottoTickets() {
+    const snapshot = await db.collection('henryyLottoTickets').orderBy('createdAt', 'desc').get();
+    const container = document.getElementById('adminLottoDiv');
+    container.innerHTML = "<h3>Kaikki HenryyLotto rivit</h3>";
+    
+    snapshot.forEach(doc => {
+        const data = doc.data();
+        const div = document.createElement('div');
+        div.textContent = `${data.username}: ${data.numbers.join(', ')} (luotu: ${data.createdAt?.toDate()})`;
+        container.appendChild(div);
+    });
+}
+
 // =====================
 // Admin video
 // =====================
