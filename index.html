@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Henry Club</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js"></script>
+<script src="main.js" defer></script>
+</head>
+<body>
+
+<div id="registerDiv">
+  <h2>Rekisteröidy</h2>
+  <input id="regUsername" placeholder="Tunnus">
+  <input id="regPassword" type="password" placeholder="Salasana">
+  <button onclick="register()">Rekisteröidy</button>
+</div>
+
+<div id="loginDiv">
+  <h2>Kirjaudu sisään</h2>
+  <input id="username" placeholder="Tunnus">
+  <input id="password" type="password" placeholder="Salasana">
+  <button onclick="login(document.getElementById('username').value, document.getElementById('password').value)">Kirjaudu</button>
+</div>
+
+<div id="userDashboard" style="display:none;">
+  <h2>Käyttäjänäkymä</h2>
+  <p>Saldo: <span id="saldoDisplay">0</span> €</p>
+  <button onclick="playHenryyOriginal()">Tilaa HenryyOriginal</button>
+  <div>
+    <h3>HenryyLotto</h3>
+    <input id="lottoNumbers" placeholder="7 numeroa pilkuin">
+    <input id="lottoRows" type="number" min="1" max="10" placeholder="Rivien määrä">
+    <button onclick="playHenryyLotto()">Osallistu</button>
+  </div>
+</div>
+
+<div id="adminDashboard" style="display:none;">
+  <h2>Admin</h2>
+  <input id="adminUser" placeholder="Admin tunnus">
+  <input id="adminPass" placeholder="Admin salasana">
+  <input id="targetUser" placeholder="Käyttäjä">
+  <input id="saldoAmount" type="number" placeholder="Saldo">
+  <button onclick="addSaldo()">Lisää saldo</button>
+  <input type="file" id="videoInput">
+  <button onclick="uploadWinVideo(document.getElementById('videoInput').files[0])">Lataa voitto video</button>
+</div>
+
+</body>
+</html>
